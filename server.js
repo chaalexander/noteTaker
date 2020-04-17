@@ -3,34 +3,35 @@ var path = require("path");
 var dbjson = require("./db/db.json");
 
 var app = express();
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 
 // Routes
+// html routes
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.get("/notes", function (req, res) {
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
+  res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
-// ===========================================================
+// data routes
 app.get("/api/notes", function (req, res) {
-    return res.json(dbjson);
+  return res.json(dbjson);
 });
 app.post("/api/notes", function (req, res) {
-    dbjson.push(req.body);
-    res.json(newNote);
+  dbjson.push(req.body);
+  res.json(newNote);
 });
 app.delete("/api/notes", function (req, res) {
-    dbjson.delete(req.body);
+  dbjson.delete(req.body);
 });
 
-// 
+//
 app.put("/api/notes", function (req, res) {
-    dbjson.save(req.noteList);
+  dbjson.save(req.noteList);
 });
 // var newNote = req.body;
 
@@ -40,10 +41,10 @@ app.put("/api/notes", function (req, res) {
 //     return res.json(notes[i]);
 //   }
 // }
-// 
+//
 
 // Listener
 // ===========================================================
 app.listen(PORT, function () {
-    console.log("App listening on PORT " + PORT);
+  console.log("App listening on PORT " + PORT);
 });
