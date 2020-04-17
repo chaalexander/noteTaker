@@ -1,6 +1,9 @@
 const express = require("express");
 const path = require("path");
 const dbjson = require("./db/db.json");
+const uuid = require("uuid");
+console.log(uuid.v4());
+// id: uuid.v4();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,13 +26,16 @@ app.get("/notes", (req, res) => {
 
 // data routes
 app.get("/api/notes", (req, res) => {
-   return res.json(dbjson);
+  return res.json(dbjson);
 });
 app.post("/api/notes", (req, res) => {
+  let note = req.body;
+  id = uuid.v4();
+
   dbjson.push(req.body);
-  res.json(notes);
+  res.json(true);
 });
-app.delete("/api/notes", (req, res) => {
+app.delete("/api/notes/:id", (req, res) => {
   dbjson.delete(req.body);
 
   dbjson.length = 0;
