@@ -1,38 +1,47 @@
-var express = require("express");
-var path = require("path");
-var dbjson = require("./db/db.json");
+const express = require("express");
+const path = require("path");
+const dbjson = require("./db/db.json");
 
-var app = express();
-var PORT = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("public"));
+
+let notes = [];
 
 // Routes
 // html routes
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "./public/notes.html"));
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "notes.html"));
 });
 
 // data routes
-app.get("/api/notes", function (req, res) {
-  return res.json(dbjson);
+app.get("/api/notes", (req, res) => {
+   return res.json(dbjson);
 });
-app.post("/api/notes", function (req, res) {
+app.post("/api/notes", (req, res) => {
   dbjson.push(req.body);
-  res.json(newNote);
+  res.json(notes);
 });
-app.delete("/api/notes", function (req, res) {
+app.delete("/api/notes", (req, res) => {
   dbjson.delete(req.body);
+
+  dbjson.length = 0;
+
+  res.json({ ok: true });
 });
 
 //
-app.put("/api/notes", function (req, res) {
+app.put("/api/notes", (req, res) => {
   dbjson.save(req.noteList);
 });
+// route for updating a note that the user clicked on
 // var newNote = req.body;
 
 // var readonly = req.params.notes;
@@ -45,6 +54,6 @@ app.put("/api/notes", function (req, res) {
 
 // Listener
 // ===========================================================
-app.listen(PORT, function () {
+app.listen(PORT, () => {
   console.log("App listening on PORT " + PORT);
 });
