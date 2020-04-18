@@ -2,7 +2,8 @@ const express = require("express");
 const path = require("path");
 const dbjson = require("./db/db.json");
 const uuid = require("uuid");
-console.log(uuid.v4());
+const fs = require("fs");
+// console.log(uuid.v4());
 // id: uuid.v4();
 
 const app = express();
@@ -30,11 +31,18 @@ app.get("/api/notes", (req, res) => {
 });
 app.post("/api/notes", (req, res) => {
   let note = req.body;
-  id = uuid.v4();
+  let id = uuid.v4();
+  note.id = `${id}`;
+  dbjson.push(note);
 
-  dbjson.push(req.body);
-  res.json(true);
+  fs.writeFileSync("db.json", JSON.stringify(note), (err) => {
+    if (err) throw err;
+    console.log("success");
+  });
+
+  res.json(note);
 });
+
 app.delete("/api/notes/:id", (req, res) => {
   dbjson.delete(req.body);
 
@@ -44,9 +52,9 @@ app.delete("/api/notes/:id", (req, res) => {
 });
 
 //
-app.put("/api/notes", (req, res) => {
-  dbjson.save(req.noteList);
-});
+// app.put("/api/notes", (req, res) => {
+//   dbjson.save(req.noteList);
+// });
 // route for updating a note that the user clicked on
 // var newNote = req.body;
 
