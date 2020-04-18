@@ -1,14 +1,26 @@
-const express = require("express");
+// node packages
 const path = require("path");
-const dbjson = require("./db/db.json");
-const uuid = require("uuid");
 const fs = require("fs");
+const util = require("util");
+
+// npm packages
+const express = require("express");
+const uuid = require("uuid");
+
+// importing local files
+const dbjson = require("./db/db.json");
+
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileSync = util.promisify(fs.writeFile);
+
 // console.log(uuid.v4());
 // id: uuid.v4();
 
+// express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// express handle
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -27,20 +39,25 @@ app.get("/notes", (req, res) => {
 
 // data routes
 app.get("/api/notes", (req, res) => {
-  return res.json(dbjson);
-});
-app.post("/api/notes", (req, res) => {
-  let note = req.body;
-  let id = uuid.v4();
-  note.id = `${id}`;
-  dbjson.push(note);
-
-  fs.writeFileSync("db.json", JSON.stringify(note), (err) => {
-    if (err) throw err;
-    console.log("success");
+  readFileAsync("./db/db.json", "utf8").then((data) => {
+    const notesJson = JSON.parse(data);
+    console.log(notesJson);
+    res.json(notesJson);
   });
+});
 
-  res.json(note);
+app.post("/api/notes", (req, res) => {
+  let newNote = req.body;
+  let id = uuid.v4;
+  newNote.id = `${id}`;
+  readFileAsync("./db/db.json", "utf8").then((data) => {
+    const notesJson = JSON.parse(data);
+    notesJson.push(newNote);
+
+    writeFileSync("./db/db.json", JSON.stringify(notesJson)).then(() => {
+      res.json(newNote);
+    });
+  });
 });
 
 app.delete("/api/notes/:id", (req, res) => {
@@ -50,21 +67,6 @@ app.delete("/api/notes/:id", (req, res) => {
 
   res.json({ ok: true });
 });
-
-//
-// app.put("/api/notes", (req, res) => {
-//   dbjson.save(req.noteList);
-// });
-// route for updating a note that the user clicked on
-// var newNote = req.body;
-
-// var readonly = req.params.notes;
-// for (var i = 0; i < noteList.length; i++) {
-//   if (readonly === notes[i]) {
-//     return res.json(notes[i]);
-//   }
-// }
-//
 
 // Listener
 // ===========================================================
