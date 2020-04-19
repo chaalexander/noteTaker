@@ -89,8 +89,7 @@ app.delete("/api/notes/:id", (req, res) => {
           (dbjson) => dbjson.id !== parseInt(req.params.id)
         ),
       });
-    } 
-    else {
+    } else {
       res.status(400).json({ msg: `No Note with the id of ${req.params.id}` });
     }
   });
