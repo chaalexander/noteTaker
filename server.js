@@ -78,6 +78,21 @@ app.delete("/api/notes/:id", (req, res) => {
     })();
 
     delete dbjson[lastIndex];
+
+    const found = dbjson.some(
+      (dbjson) => dbjson.id === parseInt(req.params.id)
+    );
+    if (found) {
+      res.json({
+        msg: "Note Deleted",
+        dbjson: dbjson.filter(
+          (dbjson) => dbjson.id !== parseInt(req.params.id)
+        ),
+      });
+    } 
+    else {
+      res.status(400).json({ msg: `No Note with the id of ${req.params.id}` });
+    }
   });
 });
 
