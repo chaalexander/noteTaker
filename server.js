@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 let notes = [];
+let id = uuid.v4();
 
 // Routes
 // html routes
@@ -48,7 +49,7 @@ app.get("/api/notes", (req, res) => {
 
 app.post("/api/notes", (req, res) => {
   let newNote = req.body;
-  let id = uuid.v4;
+
   newNote.id = `${id}`;
   readFileAsync("./db/db.json", "utf8").then((data) => {
     const notesJson = JSON.parse(data);
@@ -61,11 +62,23 @@ app.post("/api/notes", (req, res) => {
 });
 
 app.delete("/api/notes/:id", (req, res) => {
-  dbjson.delete(req.body);
-
+  // dbjson.splice(valueOf(id));
+  // dbjson.delete(req.body);
   dbjson.length = 0;
-
   res.json({ ok: true });
+
+  fs.readFile("db.json", function read(err) {
+    if (err) {
+      throw err;
+    }
+
+    lastIndex = (function () {
+      for (var i = dbjson.length - 1; i > -1; i--)
+        if (dbjson[i].match(id)) return i;
+    })();
+
+    delete dbjson[lastIndex];
+  });
 });
 
 // Listener
