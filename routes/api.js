@@ -1,56 +1,46 @@
 const express = require("express");
 const router = express.Router();
-const id = require("uuid");
-const dbjson = require("../db/db.json");
+const uuid = require("uuid");
+let dbjson = require("../db/db.json");
 const fs = require("fs");
+const util = require("util");
+const writeFileSync = util.promisify(fs.writeFile);
 
 // data routes
 router.get("/notes", (req, res) => {
   res.json(dbjson);
 });
 
-router.post("/notes", (req, res) => {
+router.post("/notes", async (req, res) => {
+  let id = uuid.v4();
   let newNote = req.body;
   newNote.id = `${id}`;
   dbjson.push(newNote);
 
-  writeFileSync("./db/db.json", JSON.stringify(newNote)).then(() => {
+  try {
+    await writeFileSync("./db/db.json", JSON.stringify(dbjson));
     res.json(newNote);
-  });
+  } catch (error) {
+    res.json(error);
+  }
 });
 
-router.delete("/notes/:id", (req, res) => {
-  // dbjson.splice(valueOf(id));
-  // dbjson.delete(req.body);
-  dbjson.length = 0;
-  res.json({ ok: true });
+router.delete("/notes/:id", async (req, res) => {
+  const found = dbjson.some((dbjson) => dbjson.id === req.params.id);
+  console.log(req.params.id, found);
 
-  fs.readFile("db.json", function read(err) {
-    if (err) {
-      throw err;
+  if (found) {
+    const filterNotes = dbjson.filter((dbjson) => dbjson.id !== req.params.id);
+    dbjson = filterNotes;
+    try {
+      await writeFileSync("./db/db.json", JSON.stringify(dbjson));
+      res.json(newNote);
+    } catch (error) {
+      res.json(error);
     }
-
-    lastIndex = (function () {
-      for (var i = dbjson.length - 1; i > -1; i--)
-        if (dbjson[i].match(id)) return i;
-    })();
-
-    delete dbjson[lastIndex];
-
-    const found = dbjson.some(
-      (dbjson) => dbjson.id === parseInt(req.params.id)
-    );
-    if (found) {
-      res.json({
-        msg: "Note Deleted",
-        dbjson: dbjson.filter(
-          (dbjson) => dbjson.id !== parseInt(req.params.id)
-        ),
-      });
-    } else {
-      res.status(400).json({ msg: `No Note with the id of ${req.params.id}` });
-    }
-  });
+  } else {
+    res.status(400).json({ msg: `No Note with the id of ${req.params.id}` });
+  }
 });
 
 module.exports = router;
