@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const apiRoutes = require("./routes/api");
 const htmlRoutes = require("./routes/html");
-const cfonts = require("cfonts");
 
 // parser middlewear
 app.use(express.json());
