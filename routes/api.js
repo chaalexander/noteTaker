@@ -1,9 +1,17 @@
+// importing internal node
 const express = require("express");
-const router = express.Router();
-const uuid = require("uuid");
-let dbjson = require("../db/db.json");
 const fs = require("fs");
 const util = require("util");
+
+// creating the router const
+const router = express.Router();
+
+// importing external packages
+const uuid = require("uuid");
+
+// importing local files
+let dbjson = require("../db/db.json");
+
 const writeFileSync = util.promisify(fs.writeFile);
 
 // data routes

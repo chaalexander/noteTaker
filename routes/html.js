@@ -1,6 +1,10 @@
+// // importing internal node packages
 const express = require("express");
-const router = express.Router();
 const path = require("path");
+
+// creating the router const
+const router = express.Router();
+
 
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
