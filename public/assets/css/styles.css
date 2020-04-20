@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -15,17 +16,20 @@ html, body {
   cursor: pointer;
 }
 
-.note-textarea, .note-title {
+.note-textarea,
+.note-title {
   color: #000000;
   width: 100%;
   outline: none;
   border: none;
+  font-family: "Walter Turncoat", cursive;
 }
 
 .note-textarea {
   resize: none;
   height: calc(100% - 63px);
   padding-top: 15px;
+  font-family: "Walter Turncoat", cursive;
 }
 
 .note-title {
@@ -34,8 +38,10 @@ html, body {
   font-size: 3rem;
 }
 
-.note-title:read-only, .note-textarea:read-only {
+.note-title:read-only,
+.note-textarea:read-only {
   color: #757575;
+  font-family: "Walter Turncoat", cursive;
 }
 
 .list-container .card {
@@ -55,6 +61,7 @@ html, body {
   border-top: none;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
+  font-family: "Walter Turncoat", cursive;
 }
 
 .list-container i {
