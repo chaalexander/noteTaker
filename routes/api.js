@@ -5,29 +5,21 @@ const dbjson = require("../db/db.json");
 const fs = require("fs");
 
 // data routes
-router.get("/", (req, res) => {
-  readFileAsync("../db/db.json", "utf8").then((data) => {
-    const notesJson = JSON.parse(data);
-    console.log(notesJson);
-    res.json(notesJson);
-  });
+router.get("/notes", (req, res) => {
+  res.json(dbjson);
 });
 
-router.post("/", (req, res) => {
+router.post("/notes", (req, res) => {
   let newNote = req.body;
-
   newNote.id = `${id}`;
-  readFileAsync("../db/db.json", "utf8").then((data) => {
-    const notesJson = JSON.parse(data);
-    notesJson.push(newNote);
+  dbjson.push(newNote);
 
-    writeFileSync("./db/db.json", JSON.stringify(notesJson)).then(() => {
-      res.json(newNote);
-    });
+  writeFileSync("./db/db.json", JSON.stringify(newNote)).then(() => {
+    res.json(newNote);
   });
 });
 
-router.delete("//:id", (req, res) => {
+router.delete("/notes/:id", (req, res) => {
   // dbjson.splice(valueOf(id));
   // dbjson.delete(req.body);
   dbjson.length = 0;
