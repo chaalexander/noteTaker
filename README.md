@@ -9,6 +9,7 @@
 <li><a href="#tech">Technology Stack</a></li> 
 <li><a href="#usage">Usage</a></li> 
 <li><a href="#screen">ScreenShots</a></li> 
+<li><a href="#test">Test</a></li>
 <li><a href="#contributors">Contributors</a></li>   
 <li><a href="#contact">Contact</a></li> 
 <h2 id="description"> Description </h2>
@@ -24,8 +25,14 @@
 <li>Delete it whenever you don't need anymore.</li>
 </ol>   
 <h2 id="screen"> ScreenShoots </h2>
+<h3>Desktop</h3>
 <img src= "screenShots/index.png">
 <img src= "screenShots/notes.png">
+<h3>Mobile</h3>
+<img width="130" height="200" src= "screenShots/mobile-index.png">
+<img width="130" height="200" src= "screenShots/mobile-note.png">
+<h2 id="test"> Test </h2>
+<img src= "screenShots/gif.gif">
 <h2 id="contributors"> Contributors </h2>
 <p><a href= "https://github.com/chaalexander">@chaalexander</a></p> 
 <h2 id="contact"> Contact </h2>         
