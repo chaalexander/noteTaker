@@ -10,7 +10,6 @@ const CFonts = require("cfonts");
 const apiRoutes = require("./routes/api");
 const htmlRoutes = require("./routes/html");
 
-
 // parser middlewear
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,12 +28,11 @@ app.listen(PORT, () => {
   console.log("App listening on PORT " + PORT);
 });
 
-
-// cfont 
-CFonts.say("Welcome |Please Give Me An A+", {
+// cfont
+CFonts.say("Welcome to the pink side! ", {
   font: "chrome",
   align: "center",
-  colors: ["candy", "candy", "candy"],
+  colors: ["magenta", "magenta", "magenta"],
   background: "transparent",
   letterSpacing: 1,
   lineHeight: 1,
