@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "cfonts": "^2.8.1",
+    "compression": "^1.7.4",
     "express": "^4.16.4",
     "nodemon": "^2.0.3",
     "uuid": "^7.0.3"

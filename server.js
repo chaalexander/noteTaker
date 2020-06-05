@@ -2,6 +2,7 @@
 const path = require("path");
 const express = require("express");
 const app = express();
+const compression = require("compression");
 
 // importing external packages
 const CFonts = require("cfonts");
@@ -13,6 +14,7 @@ const htmlRoutes = require("./routes/html");
 // parser middlewear
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(compression());
 
 // static folder
 app.use(express.static(path.join(__dirname, "public")));
